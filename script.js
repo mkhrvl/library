@@ -1,4 +1,4 @@
-const myLibrary = [];
+const myLibrary = [{ author: 'Author 1', title: 'Book Title 1', pages: 120, isRead: true }];
 
 function Book(author, title, pages, isRead) {
     this.author = author;
@@ -55,8 +55,13 @@ function createBookEntry(book) {
     bookshelf.appendChild(bookContainer);
 }
 
-function displayAllBooksFromLibrary(library) {
-    library.forEach((book) => {
+function clearBookshelfDisplay() {
+    const bookshelf = document.querySelector('.bookshelf__container');
+    bookshelf.replaceChildren('');
+}
+
+function displayAllBooksFromLibrary() {
+    myLibrary.forEach((book) => {
         createBookEntry(book);
     });
 }
@@ -73,7 +78,28 @@ btnCancelBookEntry.addEventListener('click', () => {
     dialog.close();
 });
 
-addBookToLibrary('Author 1', 'Book Title 1', 120, true);
-addBookToLibrary('Author 2', 'Book Title 2', 300, false);
+function submitBookEntry() {
+    const bookTitleInput = document.querySelector('#book-title');
+    const bookAuthorInput = document.querySelector('#book-author');
+    const bookPagesInput = document.querySelector('#book-pages');
+    const bookStatusInput = document.querySelector('#book-read');
 
-displayAllBooksFromLibrary(myLibrary);
+    const title = bookTitleInput.value;
+    const author = bookAuthorInput.value;
+    const pages = bookPagesInput.value;
+    const status = bookStatusInput.checked;
+
+    addBookToLibrary(author, title, pages, status);
+}
+
+const form = document.querySelector('.dialog__form');
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    submitBookEntry();
+    clearBookshelfDisplay();
+    displayAllBooksFromLibrary();
+    dialog.close();
+});
+
+displayAllBooksFromLibrary();
