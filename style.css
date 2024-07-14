@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+#root,
+#__next {
+    isolation: isolate;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    height: 100svh;
+}
+
+.header {
+    align-items: center;
+    background-color: burlywood;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    height: 100px;
+    padding-left: 4rem;
+    position: relative;
+}
+
+.bookshelf {
+    background-color: rgb(245, 245, 245);
+    display: grid;
+    gap: 2rem;
+    grid-auto-rows: min-content;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    height: 100%;
+    padding: 2rem 4rem;
+}
+
+.book__container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.book__cover {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.book__details {
+    display: flex;
+    flex-flow: column nowrap;
+    line-height: 1.7;
+    padding-right: 1rem;
+    padding: 1rem 2rem;
+}
+
+.book__status-container {
+    align-self: flex-start;
+    background-color: burlywood;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    padding: 0.2rem 1rem;
+}
+
+.book__status-container--read {
+    background-color: burlywood;
+}
+
+.book__status-container--unread {
+    background-color: gray;
+    color: white;
+}
+
+.book__status {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
