@@ -67,11 +67,14 @@ body {
 
 .bookshelf {
     background-color: rgb(245, 245, 245);
+    height: 100%;
+}
+
+.bookshelf__container {
     display: grid;
     gap: 2rem;
     grid-auto-rows: min-content;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    height: 100%;
     padding: 2rem 4rem;
 }
 
@@ -117,4 +120,101 @@ body {
 .book__status {
     font-size: 0.9rem;
     font-weight: 500;
+}
+
+.bookshelf__btn-add {
+    background-color: burlywood;
+    border-radius: 8px;
+    border: none;
+    bottom: 50px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    left: 50%;
+    padding: 0.8rem 1rem;
+    position: fixed;
+    transform: translateX(-50%);
+}
+
+button:hover {
+    filter: brightness(0.9);
+}
+
+.bookshelf__dialog {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2rem;
+}
+
+.dialog__header {
+    margin-bottom: 1rem;
+}
+
+.dialog__form {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 250px;
+}
+
+.dialog__form > label,
+.dialog__form legend {
+    font-weight: 600;
+}
+
+.dialog__form input {
+    margin-bottom: 1rem;
+    border: none;
+    background-color: rgb(245, 245, 245);
+    padding: 0.4rem;
+    border-radius: 8px;
+}
+
+.dialog__form input:focus {
+    outline: 1px solid lightgray;
+    border-radius: 8px;
+}
+
+.book-status__container {
+    border: none;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.book-status__container ul {
+    padding-left: 1rem;
+    padding-top: 1rem;
+}
+
+.book-status__container li {
+    list-style-type: none;
+}
+
+.form__btn {
+    margin-top: 0.5rem;
+    border-radius: 8px;
+    border: none;
+    padding: 0.5rem 0;
+    font-weight: 600;
+}
+
+.form__btn--add {
+    background-color: burlywood;
+}
+
+.form__btn--cancel {
+    background-color: rgb(209, 209, 209);
+}
+
+::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+@supports (backdrop-filter: blur(4px)) {
+    ::backdrop {
+        backdrop-filter: blur(4px);
+    }
 }

@@ -13,7 +13,7 @@ function addBookToLibrary(author, title, pages, isRead) {
 }
 
 function createBookEntry(book) {
-    const bookshelf = document.querySelector('.bookshelf');
+    const bookshelf = document.querySelector('.bookshelf__container');
 
     const bookContainer = document.createElement('div');
     bookContainer.classList.add('book__container');
@@ -60,6 +60,18 @@ function displayAllBooksFromLibrary(library) {
         createBookEntry(book);
     });
 }
+
+const dialog = document.querySelector('.bookshelf__dialog');
+const btnShowBookEntry = document.querySelector('.bookshelf__btn-add');
+const btnCancelBookEntry = document.querySelector('.form__btn--cancel');
+
+btnShowBookEntry.addEventListener('click', () => {
+    dialog.showModal();
+});
+
+btnCancelBookEntry.addEventListener('click', () => {
+    dialog.close();
+});
 
 addBookToLibrary('Author 1', 'Book Title 1', 120, true);
 addBookToLibrary('Author 2', 'Book Title 2', 300, false);

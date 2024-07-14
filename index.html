@@ -18,6 +18,40 @@
             <h1 class="header__heading">Library</h1>
         </header>
 
-        <main class="bookshelf"></main>
+        <main class="bookshelf">
+            <div class="bookshelf__container"></div>
+            <dialog class="bookshelf__dialog">
+                <h2 class="dialog__header">New Book Entry</h2>
+                <form class="dialog__form" method="dialog">
+                    <label for="book-title">Title: </label>
+                    <input type="text" id="book-title" name="book-title" required />
+
+                    <label for="book-author" name="book-author">Author: </label>
+                    <input type="text" id="book-author" name="book-author" required />
+
+                    <label for="book-pages">No. of Pages: </label>
+                    <input type="tel" id="book-pages" name="book-pages" pattern="[0-9]+" required />
+
+                    <fieldset class="book-status__container">
+                        <legend>Book Status:</legend>
+
+                        <ul>
+                            <li>
+                                <input type="radio" name="book-status" id="book-read" checked />
+                                <label for="book-read">Read</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="book-status" id="book-unread" />
+                                <label for="book-unread">Not Read</label>
+                            </li>
+                        </ul>
+                    </fieldset>
+
+                    <button class="form__btn form__btn--add" type="submit">Add Book Entry</button>
+                    <button class="form__btn form__btn--cancel" type="button">Cancel</button>
+                </form>
+            </dialog>
+            <button class="bookshelf__btn-add" type="button">Add Book Entry</button>
+        </main>
     </body>
 </html>
