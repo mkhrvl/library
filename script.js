@@ -1,4 +1,7 @@
-const myLibrary = [{ author: 'Author 1', title: 'Book Title 1', pages: 120, isRead: true }];
+const myLibrary = [
+    { author: 'Author 1', title: 'Book Title 1', pages: 100, isRead: true },
+    { author: 'Author 2', title: 'Book Title 2', pages: 200, isRead: false },
+];
 
 function Book(author, title, pages, isRead) {
     this.author = author;
@@ -12,9 +15,15 @@ function addBookToLibrary(author, title, pages, isRead) {
     myLibrary.push(bookEntry);
 }
 
-function createBookEntry(book) {
-    const bookshelf = document.querySelector('.bookshelf__container');
+const bookshelf = document.querySelector('.bookshelf__container');
 
+function removeBookEntry(book) {
+    bookshelf.removeChild(book);
+    const index = myLibrary.indexOf(book);
+    myLibrary.splice(index);
+}
+
+function createBookEntry(book) {
     const bookContainer = document.createElement('div');
     bookContainer.classList.add('book__container');
 
@@ -45,10 +54,21 @@ function createBookEntry(book) {
     bookStatus.classList.add('book__status');
     bookStatus.textContent = book.isRead ? 'Read' : 'Not Read';
 
+    const btnRemove = document.createElement('button');
+    btnRemove.setAttribute('type', 'button');
+    btnRemove.classList.add('book__btn-remove');
+    btnRemove.textContent = 'Remove';
+
+    btnRemove.addEventListener('click', (e) => {
+        const book = e.target.parentNode.parentNode;
+        removeBookEntry(book);
+    });
+
     bookDetails.appendChild(bookTitle);
     bookDetails.appendChild(bookAuthor);
     bookDetails.appendChild(bookPages);
     bookDetails.appendChild(bookStatusContainer);
+    bookDetails.appendChild(btnRemove);
     bookStatusContainer.appendChild(bookStatus);
     bookContainer.appendChild(bookCover);
     bookContainer.appendChild(bookDetails);

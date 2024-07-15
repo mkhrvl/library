@@ -93,19 +93,24 @@ body {
 }
 
 .book__details {
-    display: flex;
-    flex-flow: column nowrap;
-    line-height: 1.7;
-    padding-right: 1rem;
-    padding: 1rem 2rem;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 0.2rem;
+    padding: 1.5rem;
+}
+
+.book__title,
+.book__author,
+.book__pages {
+    grid-column: span 2;
 }
 
 .book__status-container {
-    align-self: flex-start;
     background-color: burlywood;
     border-radius: 8px;
     margin-top: 0.5rem;
     padding: 0.2rem 1rem;
+    justify-self: start;
 }
 
 .book__status-container--read {
@@ -191,6 +196,18 @@ button:hover {
 
 .book-status__container li {
     list-style-type: none;
+}
+
+.book__btn-remove {
+    background-color: #e3735e;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    justify-self: end;
+    align-self: end;
+    padding: 0.2rem 0.8rem;
+    color: white;
 }
 
 .form__btn {
