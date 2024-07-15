@@ -134,5 +134,9 @@ form.addEventListener('submit', (e) => {
 
 addBookToLibrary('Author 1', 'Book Title 1', '100', true);
 addBookToLibrary('Author 2', 'Book Title 2', '200', false);
+addBookToLibrary('Author 3', 'Book Title 3', '300', false);
+addBookToLibrary('Author 4', 'Book Title 4', '400', true);
+addBookToLibrary('Author 5', 'Book Title 5', '500', true);
+addBookToLibrary('Author 6', 'Book Title 6', '600', true);
 
 displayAllBooksFromLibrary();
