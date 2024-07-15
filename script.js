@@ -23,14 +23,15 @@ function addBookToLibrary(author, title, pages, isRead) {
 const bookshelf = document.querySelector('.bookshelf__container');
 
 function removeBookEntry(book) {
+    const index = book.dataset.id;
+    myLibrary.splice(index, 1);
     bookshelf.removeChild(book);
-    const index = myLibrary.indexOf(book);
-    myLibrary.splice(index);
 }
 
 function createBookEntry(book) {
     const bookContainer = document.createElement('div');
     bookContainer.classList.add('book__container');
+    bookContainer.setAttribute('data-id', `${myLibrary.indexOf(book)}`);
 
     const bookCover = document.createElement('img');
     bookCover.classList.add('book__cover');
@@ -69,8 +70,9 @@ function createBookEntry(book) {
     btnRemove.textContent = 'Remove';
 
     btnRemove.addEventListener('click', (e) => {
-        const book = e.target.parentNode.parentNode;
-        removeBookEntry(book);
+        const bookToDelete = e.target.parentNode.parentNode;
+        removeBookEntry(bookToDelete);
+        refreshBookShelfDisplay();
     });
 
     bookDetails.appendChild(bookTitle);
@@ -83,15 +85,16 @@ function createBookEntry(book) {
     bookshelf.appendChild(bookContainer);
 }
 
-function clearBookshelfDisplay() {
-    const bookshelf = document.querySelector('.bookshelf__container');
-    bookshelf.replaceChildren('');
-}
-
 function displayAllBooksFromLibrary() {
     myLibrary.forEach((book) => {
         createBookEntry(book);
     });
+}
+
+function refreshBookShelfDisplay() {
+    const bookshelf = document.querySelector('.bookshelf__container');
+    bookshelf.replaceChildren('');
+    displayAllBooksFromLibrary();
 }
 
 const dialog = document.querySelector('.bookshelf__dialog');
@@ -125,12 +128,11 @@ const form = document.querySelector('.dialog__form');
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     submitBookEntry();
-    clearBookshelfDisplay();
-    displayAllBooksFromLibrary();
+    refreshBookShelfDisplay();
     dialog.close();
 });
 
-addBookToLibrary('Author 1', 'Book Title 1', 100, true);
-addBookToLibrary('Author 2', 'Book Title 2', 200, false);
+addBookToLibrary('Author 1', 'Book Title 1', '100', true);
+addBookToLibrary('Author 2', 'Book Title 2', '200', false);
 
 displayAllBooksFromLibrary();
