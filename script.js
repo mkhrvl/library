@@ -1,7 +1,4 @@
-const myLibrary = [
-    { author: 'Author 1', title: 'Book Title 1', pages: 100, isRead: true },
-    { author: 'Author 2', title: 'Book Title 2', pages: 200, isRead: false },
-];
+const myLibrary = [];
 
 function Book(author, title, pages, isRead) {
     this.author = author;
@@ -9,6 +6,14 @@ function Book(author, title, pages, isRead) {
     this.pages = pages;
     this.isRead = isRead;
 }
+
+Book.prototype.toggleReadStatus = function () {
+    if (this.isRead) {
+        this.isRead = false;
+    } else {
+        this.isRead = true;
+    }
+};
 
 function addBookToLibrary(author, title, pages, isRead) {
     const bookEntry = new Book(author, title, pages, isRead);
@@ -46,13 +51,17 @@ function createBookEntry(book) {
     bookPages.classList.add('book__pages');
     bookPages.textContent = `${book.pages} pages`;
 
-    const bookStatusContainer = document.createElement('div');
-    bookStatusContainer.classList.add('book__status-container');
-    bookStatusContainer.classList.add(book.isRead ? 'book__status-container--read' : 'book__status-container--unread');
-
-    const bookStatus = document.createElement('p');
+    const bookStatus = document.createElement('button');
+    bookStatus.setAttribute('type', 'button');
     bookStatus.classList.add('book__status');
+    bookStatus.classList.add(book.isRead ? 'book__status--read' : 'book__status');
     bookStatus.textContent = book.isRead ? 'Read' : 'Not Read';
+
+    bookStatus.addEventListener('click', () => {
+        book.toggleReadStatus();
+        bookStatus.classList.toggle('book__status--read');
+        bookStatus.textContent = book.isRead ? 'Read' : 'Not Read';
+    });
 
     const btnRemove = document.createElement('button');
     btnRemove.setAttribute('type', 'button');
@@ -67,9 +76,8 @@ function createBookEntry(book) {
     bookDetails.appendChild(bookTitle);
     bookDetails.appendChild(bookAuthor);
     bookDetails.appendChild(bookPages);
-    bookDetails.appendChild(bookStatusContainer);
+    bookDetails.appendChild(bookStatus);
     bookDetails.appendChild(btnRemove);
-    bookStatusContainer.appendChild(bookStatus);
     bookContainer.appendChild(bookCover);
     bookContainer.appendChild(bookDetails);
     bookshelf.appendChild(bookContainer);
@@ -121,5 +129,8 @@ form.addEventListener('submit', (e) => {
     displayAllBooksFromLibrary();
     dialog.close();
 });
+
+addBookToLibrary('Author 1', 'Book Title 1', 100, true);
+addBookToLibrary('Author 2', 'Book Title 2', 200, false);
 
 displayAllBooksFromLibrary();

@@ -105,26 +105,22 @@ body {
     grid-column: span 2;
 }
 
-.book__status-container {
+.book__status {
     background-color: burlywood;
     border-radius: 8px;
     margin-top: 0.5rem;
     padding: 0.2rem 1rem;
     justify-self: start;
-}
-
-.book__status-container--read {
-    background-color: burlywood;
-}
-
-.book__status-container--unread {
-    background-color: gray;
-    color: white;
-}
-
-.book__status {
     font-size: 0.9rem;
     font-weight: 500;
+    background-color: gray;
+    color: white;
+    border: none;
+}
+
+.book__status--read {
+    background-color: burlywood;
+    color: black;
 }
 
 .bookshelf__btn-add {
