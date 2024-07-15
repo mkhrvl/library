@@ -51,6 +51,7 @@ h6 {
 }
 
 body {
+    background-color: rgb(245, 245, 245);
     font-family: 'Open Sans', sans-serif;
     height: 100svh;
 }
@@ -63,11 +64,6 @@ body {
     height: 100px;
     padding-left: 4rem;
     position: relative;
-}
-
-.bookshelf {
-    background-color: rgb(245, 245, 245);
-    height: 100%;
 }
 
 .bookshelf__container {
