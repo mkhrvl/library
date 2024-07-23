@@ -1,142 +1,185 @@
-const myLibrary = [];
-
-function Book(author, title, pages, isRead) {
-    this.author = author;
-    this.title = title;
-    this.pages = pages;
-    this.isRead = isRead;
-}
-
-Book.prototype.toggleReadStatus = function () {
-    if (this.isRead) {
-        this.isRead = false;
-    } else {
-        this.isRead = true;
+class Book {
+    constructor(author, title, pages, isRead) {
+        this.author = author;
+        this.title = title;
+        this.pages = pages;
+        this.isRead = isRead;
     }
-};
-
-function addBookToLibrary(author, title, pages, isRead) {
-    const bookEntry = new Book(author, title, pages, isRead);
-    myLibrary.push(bookEntry);
+    get author() {
+        return this._author;
+    }
+    set author(value) {
+        this._author = value;
+    }
+    get title() {
+        return this._title;
+    }
+    set title(value) {
+        this._title = value;
+    }
+    get pages() {
+        return this._pages;
+    }
+    set pages(value) {
+        this._pages = value;
+    }
+    get isRead() {
+        return this._isRead;
+    }
+    set isRead(value) {
+        this._isRead = value;
+    }
+    toggleReadStatus() {
+        this._isRead ? (this._isRead = false) : (this._isRead = true);
+    }
 }
 
-const bookshelf = document.querySelector('.bookshelf__container');
+const bookshelf = (function () {
+    const myLibrary = [];
 
-function removeBookEntry(book) {
-    const index = book.dataset.id;
-    myLibrary.splice(index, 1);
-    bookshelf.removeChild(book);
-}
+    const getLibrary = () => myLibrary;
 
-function createBookEntry(book) {
-    const bookContainer = document.createElement('div');
-    bookContainer.classList.add('book__container');
-    bookContainer.setAttribute('data-id', `${myLibrary.indexOf(book)}`);
+    const addBook = (author, title, pages, isRead) => {
+        const bookEntry = new Book(author, title, pages, isRead);
+        myLibrary.push(bookEntry);
+    };
 
-    const bookCover = document.createElement('img');
-    bookCover.classList.add('book__cover');
-    bookCover.setAttribute('src', `https://picsum.photos/seed/${book.title}/100/`);
+    const removeBook = (book) => {
+        const index = book.dataset.id;
+        myLibrary.splice(index, 1);
+    };
 
-    const bookDetails = document.createElement('div');
-    bookDetails.classList.add('book__details');
+    return {
+        getLibrary,
+        addBook,
+        removeBook,
+    };
+})();
 
-    const bookTitle = document.createElement('h2');
-    bookTitle.classList.add('book__title');
-    bookTitle.textContent = book.title;
+const displayController = (function () {
+    const library = bookshelf;
+    const bookshelfDiv = document.querySelector('.bookshelf__container');
+    const dialog = document.querySelector('.bookshelf__dialog');
+    const btnShowBookEntry = document.querySelector('.bookshelf__btn-add');
+    const btnCancelBookEntry = document.querySelector('.form__btn--cancel');
+    const form = document.querySelector('.dialog__form');
 
-    const bookAuthor = document.createElement('p');
-    bookAuthor.classList.add('book__author');
-    bookAuthor.textContent = `by ${book.author}`;
+    const updateDisplay = () => {
+        bookshelfDiv.textContent = '';
 
-    const bookPages = document.createElement('p');
-    bookPages.classList.add('book__pages');
-    bookPages.textContent = `${book.pages} pages`;
+        const books = library.getLibrary();
 
-    const bookStatus = document.createElement('button');
-    bookStatus.setAttribute('type', 'button');
-    bookStatus.classList.add('book__status');
-    bookStatus.classList.add(book.isRead ? 'book__status--read' : 'book__status');
-    bookStatus.textContent = book.isRead ? 'Read' : 'Not Read';
+        books.forEach((book) => {
+            renderBook(books, book);
+        });
+    };
 
-    bookStatus.addEventListener('click', () => {
-        book.toggleReadStatus();
-        bookStatus.classList.toggle('book__status--read');
-        bookStatus.textContent = book.isRead ? 'Read' : 'Not Read';
-    });
+    const renderBook = (books, book) => {
+        const bookContainerDiv = document.createElement('div');
+        bookContainerDiv.classList.add('book__container');
+        bookContainerDiv.setAttribute('data-id', `${books.indexOf(book)}`);
 
-    const btnRemove = document.createElement('button');
-    btnRemove.setAttribute('type', 'button');
-    btnRemove.classList.add('book__btn-remove');
-    btnRemove.textContent = 'Remove';
+        const bookCoverImg = document.createElement('img');
+        bookCoverImg.classList.add('book__cover');
+        bookCoverImg.setAttribute('src', `https://picsum.photos/seed/${book.title}/100/`);
 
-    btnRemove.addEventListener('click', (e) => {
-        const bookToDelete = e.target.parentNode.parentNode;
-        removeBookEntry(bookToDelete);
-        refreshBookShelfDisplay();
-    });
+        const bookDetailsDiv = document.createElement('div');
+        bookDetailsDiv.classList.add('book__details');
 
-    bookDetails.appendChild(bookTitle);
-    bookDetails.appendChild(bookAuthor);
-    bookDetails.appendChild(bookPages);
-    bookDetails.appendChild(bookStatus);
-    bookDetails.appendChild(btnRemove);
-    bookContainer.appendChild(bookCover);
-    bookContainer.appendChild(bookDetails);
-    bookshelf.appendChild(bookContainer);
-}
+        const bookTitleH2 = document.createElement('h2');
+        bookTitleH2.classList.add('book__title');
+        bookTitleH2.textContent = book.title;
 
-function displayAllBooksFromLibrary() {
-    myLibrary.forEach((book) => {
-        createBookEntry(book);
-    });
-}
+        const bookAuthorP = document.createElement('p');
+        bookAuthorP.classList.add('book__author');
+        bookAuthorP.textContent = `by ${book.author}`;
 
-function refreshBookShelfDisplay() {
-    const bookshelf = document.querySelector('.bookshelf__container');
-    bookshelf.replaceChildren('');
-    displayAllBooksFromLibrary();
-}
+        const bookPagesP = document.createElement('p');
+        bookPagesP.classList.add('book__pages');
+        bookPagesP.textContent = `${book.pages} pages`;
 
-const dialog = document.querySelector('.bookshelf__dialog');
-const btnShowBookEntry = document.querySelector('.bookshelf__btn-add');
-const btnCancelBookEntry = document.querySelector('.form__btn--cancel');
+        const bookStatusBtn = document.createElement('button');
+        bookStatusBtn.setAttribute('type', 'button');
+        bookStatusBtn.classList.add('book__status');
+        bookStatusBtn.classList.add(book.isRead ? 'book__status--read' : 'book__status');
+        bookStatusBtn.textContent = book.isRead ? 'Read' : 'Not Read';
 
-btnShowBookEntry.addEventListener('click', () => {
-    dialog.showModal();
-});
+        const bookStatusClickHandler = () => {
+            book.toggleReadStatus();
+            bookStatusBtn.classList.toggle('book__status--read');
+            bookStatusBtn.textContent = book.isRead ? 'Read' : 'Not Read';
+        };
 
-btnCancelBookEntry.addEventListener('click', () => {
-    dialog.close();
-});
+        bookStatusBtn.addEventListener('click', () => bookStatusClickHandler);
 
-function submitBookEntry() {
-    const bookTitleInput = document.querySelector('#book-title');
-    const bookAuthorInput = document.querySelector('#book-author');
-    const bookPagesInput = document.querySelector('#book-pages');
-    const bookStatusInput = document.querySelector('#book-read');
+        const btnRemove = document.createElement('button');
+        btnRemove.setAttribute('type', 'button');
+        btnRemove.classList.add('book__btn-remove');
+        btnRemove.textContent = 'Remove';
 
-    const title = bookTitleInput.value;
-    const author = bookAuthorInput.value;
-    const pages = bookPagesInput.value;
-    const status = bookStatusInput.checked;
+        const removeClickHandler = (e) => {
+            const bookToDelete = e.target.parentNode.parentNode;
+            library.removeBook(bookToDelete);
+            bookshelfDiv.removeChild(bookToDelete);
+            updateDisplay();
+        };
 
-    addBookToLibrary(author, title, pages, status);
-}
+        btnRemove.addEventListener('click', removeClickHandler);
 
-const form = document.querySelector('.dialog__form');
+        bookDetailsDiv.appendChild(bookTitleH2);
+        bookDetailsDiv.appendChild(bookAuthorP);
+        bookDetailsDiv.appendChild(bookPagesP);
+        bookDetailsDiv.appendChild(bookStatusBtn);
+        bookDetailsDiv.appendChild(btnRemove);
+        bookContainerDiv.appendChild(bookCoverImg);
+        bookContainerDiv.appendChild(bookDetailsDiv);
+        bookshelfDiv.appendChild(bookContainerDiv);
+    };
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    submitBookEntry();
-    refreshBookShelfDisplay();
-    dialog.close();
-});
+    const showBookClickHandler = () => {
+        dialog.showModal();
+    };
 
-addBookToLibrary('Author 1', 'Book Title 1', '100', true);
-addBookToLibrary('Author 2', 'Book Title 2', '200', false);
-addBookToLibrary('Author 3', 'Book Title 3', '300', false);
-addBookToLibrary('Author 4', 'Book Title 4', '400', true);
-addBookToLibrary('Author 5', 'Book Title 5', '500', true);
-addBookToLibrary('Author 6', 'Book Title 6', '600', true);
+    btnShowBookEntry.addEventListener('click', showBookClickHandler);
 
-displayAllBooksFromLibrary();
+    const cancelBookClickHandler = () => {
+        dialog.close();
+    };
+
+    btnCancelBookEntry.addEventListener('click', cancelBookClickHandler);
+
+    function submitBookEntry() {
+        const bookTitleInput = document.querySelector('#book-title');
+        const bookAuthorInput = document.querySelector('#book-author');
+        const bookPagesInput = document.querySelector('#book-pages');
+        const bookStatusInput = document.querySelector('#book-read');
+
+        const title = bookTitleInput.value;
+        const author = bookAuthorInput.value;
+        const pages = bookPagesInput.value;
+        const status = bookStatusInput.checked;
+
+        library.addBook(author, title, pages, status);
+
+        form.reset();
+        updateDisplay();
+    }
+
+    const formSubmitHandler = (e) => {
+        e.preventDefault();
+        submitBookEntry();
+        updateDisplay();
+        dialog.close();
+    };
+
+    form.addEventListener('submit', formSubmitHandler);
+
+    library.addBook('Author 1', 'Book Title 1', '100', true);
+    library.addBook('Author 2', 'Book Title 2', '200', false);
+    library.addBook('Author 3', 'Book Title 3', '300', false);
+    library.addBook('Author 4', 'Book Title 4', '400', true);
+    library.addBook('Author 5', 'Book Title 5', '500', true);
+    library.addBook('Author 6', 'Book Title 6', '600', true);
+
+    updateDisplay();
+})();
